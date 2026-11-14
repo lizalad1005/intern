@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LettuceDecide</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="hero">
+        <p class="eyebrow">Your week of meals, decided by Drex</p>
+        <h1>Lettuce<span>Decide</span></h1>
+        <p class="subtitle">Turn recipe cards into a calmer week of cooking.</p>
+      </header>
+
+      <section class="setup-card recipe-card-first">
+        <div>
+          <p class="eyebrow">Add to your collection</p>
+          <h2>Scan a recipe card</h2>
+          <p class="muted">Upload a handwritten or printed recipe. DeepInfra vision reads the ingredients and steps for you to review.</p>
+        </div>
+        <label class="upload-dropzone" for="recipe-card-photo">
+          <span class="upload-icon">＋</span>
+          <span id="recipe-card-label">Choose a recipe card photo</span>
+          <input id="recipe-card-photo" type="file" accept="image/*" />
+        </label>
+        <button id="extract-recipe" class="secondary-button" type="button" disabled>Extract recipe</button>
+        <p id="ai-status" class="ai-status" aria-live="polite"></p>
+      </section>
+
+      <section class="setup-card" aria-labelledby="setup-title">
+        <div>
+          <p class="eyebrow">Step 1</p>
+          <h2 id="setup-title">Add your recipe cards</h2>
+          <p class="muted">Add as many recipes as you want, one per line. You can update this list and run the planner again anytime.</p>
+        </div>
+        <textarea id="recipe-input" rows="8" aria-label="Recipe cards"></textarea>
+        <div>
+          <p class="eyebrow">Your food cards</p>
+          <div id="recipe-gallery" class="recipe-gallery" aria-label="Recipe photo gallery"></div>
+        </div>
+        <div class="fridge-checklist">
+          <p class="eyebrow">Step 2 · Fridge checklist</p>
+          <h2>What do you already have?</h2>
+          <p class="muted">Type one ingredient per line. These are removed from your shopping list.</p>
+          <textarea id="fridge-input" rows="4" placeholder="milk&#10;tomatoes&#10;rice&#10;garlic"></textarea>
+          <button id="save-fridge" class="secondary-button" type="button">Save fridge checklist</button>
+          <div id="fridge-checklist" class="detected-items"></div>
+        </div>
+        <section id="recipe-detail" class="recipe-detail" hidden aria-live="polite">
+          <button id="close-recipe-detail" class="detail-close" type="button" aria-label="Close recipe details">×</button>
+          <div id="recipe-detail-content"></div>
+        </section>
+        <div id="fridge-photo-flow" class="fridge-upload">
+          <div>
+            <p class="eyebrow">Optional photo input</p>
+            <h2>Or upload ingredient photos</h2>
+            <p class="muted">DeepInfra vision identifies visible ingredients. You review them before planning.</p>
+          </div>
+          <label class="upload-dropzone" for="fridge-photo">
+            <span class="upload-icon">＋</span>
+            <span id="upload-label">Choose ingredient photos</span>
+            <input id="fridge-photo" type="file" accept="image/*" multiple />
+          </label>
+          <button id="analyze-ingredients" class="secondary-button" type="button" disabled>Analyze ingredients</button>
+          <div id="fridge-preview" class="fridge-preview" hidden>
+            <div id="ingredient-images" class="ingredient-image-grid"></div>
+            <div>
+              <strong>Ingredient photos ready</strong>
+              <p class="muted">Confirm the ingredients that were found:</p>
+              <div id="detected-items" class="detected-items"></div>
+            </div>
+          </div>
+        </div>
+        <button id="plan-button" type="button">Plan my week</button>
+      </section>
+
+      <section id="results" class="results" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">This week</p>
+            <h2>Your weekly plan</h2>
+          </div>
+          <button id="reset-button" class="secondary-button" type="button">Plan another version</button>
+        </div>
+        <div class="decision-note">
+          <span class="decision-icon">✦</span>
+          <div>
+            <strong>How this plan was chosen</strong>
+            <p id="decision-summary">I balanced variety, ingredient reuse, and a realistic amount of cooking for the week.</p>
+          </div>
+        </div>
+        <div id="meal-plan" class="meal-grid"></div>
+        <div class="lower-grid">
+          <section class="panel">
+            <p class="eyebrow">One trip, less waste</p>
+            <h2>Shopping list</h2>
+            <ul id="shopping-list"></ul>
+          </section>
+          <section class="panel ask-panel">
+            <p class="eyebrow">Ask Lettuce</p>
+            <h2>What should we change?</h2>
+            <div id="chat-log" class="chat-log" aria-live="polite">
+              <p class="assistant-message">I balanced variety and ingredient reuse. Ask me to swap a meal or explain the plan.</p>
+            </div>
+            <form id="ask-form">
+              <input id="ask-input" type="text" placeholder="Make Wednesday vegetarian…" aria-label="Ask Lettuce a question" />
+              <button type="submit">Ask</button>
+            </form>
+            <button id="research-button" class="secondary-button research-button" type="button">Research with KeenAble</button>
+          </section>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
